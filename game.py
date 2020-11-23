@@ -62,7 +62,6 @@ while 1:
 bla=0
 count=0
 show(nature,grass,count)
-screen.blit(player,(750,300))
 screen.blit(hero,(250,0))
 while 1:
     pygame.display.flip()
@@ -118,5 +117,13 @@ while 1:
                         count+=1
                         break
 while 1:
-    pygame.draw.rect(screen, (0,255,0,128), pygame.Rect(0, 0, 1240, 620))
+    size=(1250,620)
+    pygame.draw.rect(screen, green, pygame.Rect(0, 0, 1250, 620))
+    over = font.render("Gameover, zombie reached the plants", True, (100, 100, 100), (200, 200, 200))
+    screen.blit(over,(495,300))
     pygame.display.flip()
+    pygame.display.update()
+    for event in pygame.event.get():
+        if event.type==pygame.QUIT:
+            pygame.quit()
+            exit(1)
