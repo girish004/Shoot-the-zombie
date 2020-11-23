@@ -1,58 +1,49 @@
 import pygame
 from pygame.locals import *
 pygame.init()
+def show(nature,grass):
+    screen.blit(grass, (0, 0))
+    screen.blit(nature, ((0, 0)))
+    screen.blit(nature, ((0, 200)))
+    screen.blit(nature, ((0, 400)))
 width, height = 1240, 620
 screen=pygame.display.set_mode((width, height))
-pos=[700,230]
+pos=[250,0]
 player = pygame.image.load("D:\Girish\Project\Game\Resources\zombie.png")
 grass = pygame.image.load("D:\Girish\Project\Game\Resources\grass.jpg")
-player = pygame.transform.scale(player, (280, 220))
+hero = pygame.image.load("D:\Girish\Project\Game\Resources\hero.png")
+nature = pygame.image.load("D:\Girish\Project\Game\Resources\safe.png")
+player = pygame.transform.scale(player, (180, 120))
 grass = pygame.transform.scale(grass, (1240, 620))
-screen.blit(grass, (0,0))
+hero = pygame.transform.scale(hero, (180, 120))
+nature = pygame.transform.scale(nature, (180, 160))
+show(nature,grass)
+screen.blit(player,(750,300))
+screen.blit(hero,(250,0))
 while 1:
-    # 5 - clear the screen before drawing it again
-    # 6 - draw the screen elements
-    screen.blit(player, pos)
-    # 7 - update the screen
     pygame.display.flip()
-    # 8 - loop through the events
     for event in pygame.event.get():
-        # check if the event is the X button
         if event.type==pygame.QUIT:
-            # if it is quit the game
             pygame.quit()
             exit(1)
         if event.type == pygame.KEYDOWN:
-            if event.key==K_DOWN:
-                pos[1]=pos[1]+50
-                screen.blit(grass, (0, 0))
-                screen.blit(player, pos)
-            if event.key==K_s:
-                pos[1]=pos[1]+50
-                screen.blit(grass, (0, 0))
-                screen.blit(player, pos)
-            if event.key==K_UP:
-                pos[1]=pos[1]-50
-                screen.blit(grass, (0, 0))
-                screen.blit(player, pos)
-            if event.key==K_w:
-                pos[1]=pos[1]-50
-                screen.blit(grass, (0, 0))
-                screen.blit(player, pos)
-            if event.key==K_a:
-                pos[0]=pos[0]-50
-                screen.blit(grass, (0, 0))
-                screen.blit(player, pos)
-            if event.key==K_LEFT:
-                pos[0]=pos[0]-50
-                screen.blit(grass, (0, 0))
-                screen.blit(player, pos)
-            if event.key==K_d:
-                pos[0]=pos[0]+50
-                screen.blit(grass, (0, 0))
-                screen.blit(player, pos)
-            if event.key==K_RIGHT:
-                pos[0]=pos[0]+50
-                screen.blit(grass, (0,0))
-                screen.blit(player, pos)
-
+            if event.key==K_DOWN or event.key==K_s:
+                if(pos[1]+50<=620):
+                    pos[1]=pos[1]+50
+                show(nature,grass)
+                screen.blit(hero, pos)
+            if event.key==K_UP or event.key==K_w:
+                if(pos[1]-50>=0):
+                    pos[1]=pos[1]-50
+                show(nature,grass)
+                screen.blit(hero, pos)
+            if event.key==K_a or event.key==K_LEFT:
+                if(pos[0]-50>=250):
+                    pos[0]=pos[0]-50
+                show(nature,grass)
+                screen.blit(hero, pos)
+            if event.key==K_d or event.key==K_RIGHT:
+                if(pos[0]+50<=1240):
+                    pos[0]=pos[0]+50
+                show(nature,grass)
+                screen.blit(hero, pos)
