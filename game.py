@@ -45,9 +45,11 @@ badrect = pygame.Rect(hero.get_rect())
 zombrect=pygame.Rect(player.get_rect())
 startgame=font.render("Click to start the game", True, (100,100,100), (200,200,200))
 instructions1=font.render("1. A total of 60 seconds will be given",True,blue,green)
-instructions2=font.render("2. Try and kill as many zombies as you can with the given time",True,blue,green)
-instructions3=font.render("3. You will be considered as out of the game when the zombies reaches the trees",True,blue,green)
-instructions4=font.render("4. Have fun with the easy game play :)",True,blue,green)
+instructions2=font.render("2. Try and kill as many zombies as you can within the given time",True,blue,green)
+instructions3=font.render("3. You will be considered as out of the game when a zombie reaches a tree",True,blue,green)
+instructions4=font.render("4. Move the shooter using the up and down arrow keys :)",True,blue,green)
+instructions5=font.render("5. Shoot the zombies using the space button:)",True,blue,green)
+instructions6=font.render("6. Have fun with the easy game play :)",True,blue,green)
 bla=0
 while 1:
     screen.blit(hero,(300,150))
@@ -58,6 +60,8 @@ while 1:
     screen.blit(instructions2,(380,350))
     screen.blit(instructions3,(380,375))
     screen.blit(instructions4,(380,400))
+    screen.blit(instructions5, (380, 425))
+    screen.blit(instructions6, (380, 450))
     startrect = pygame.Rect(startgame.get_rect())
     pygame.display.update()
     for event in pygame.event.get():
@@ -110,16 +114,6 @@ while 1:
                 if event.key==K_UP or event.key==K_w:
                     if(pos[1]-50>=0):
                         pos[1]=pos[1]-50
-                    show(nature,grass,count)
-                    screen.blit(hero, pos)
-                if event.key==K_a or event.key==K_LEFT:
-                    if(pos[0]-50>=250):
-                        pos[0]=pos[0]-50
-                    show(nature,grass,count)
-                    screen.blit(hero, pos)
-                if event.key==K_d or event.key==K_RIGHT:
-                    if(pos[0]+50<=1240):
-                        pos[0]=pos[0]+50
                     show(nature,grass,count)
                     screen.blit(hero, pos)
                 if event.key==K_SPACE:
