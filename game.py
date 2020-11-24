@@ -3,16 +3,18 @@ from pygame.locals import *
 import time
 import random
 pygame.init()
-def show(nature,grass,count):
+def show(nature, grass, count):
     green = (0, 255, 0)
     blue = (0, 0, 128)
     screen.blit(grass, (0, 0))
-    screen.blit(nature, ((0, 0)))
-    screen.blit(nature, ((0, 200)))
-    screen.blit(nature, ((0, 400)))
+    screen.blit(nature, (0, 0))
+    screen.blit(nature, (0, 200))
+    screen.blit(nature, (0, 400))
     font = pygame.font.SysFont('freesansbold.ttf', 32)
     score = font.render("Score: "+str(count),True,green,blue)
     screen.blit(score,(1000,0))
+    t = font.render("Time:" + str(60 - (int(time.time()) - starttimer)), True, green, blue)
+    screen.blit(t, (1000, 20))
 start_time=int(time.time())
 c=int(time.time())
 d=int(time.time())
@@ -41,7 +43,7 @@ bullet = pygame.transform.scale(bullet, (80, 20))
 naturerect=pygame.Rect(nature.get_rect())
 badrect = pygame.Rect(hero.get_rect())
 zombrect=pygame.Rect(player.get_rect())
-startgame=font.render("Click to start the game",True,(100,100,100),(200,200,200))
+startgame=font.render("Click to start the game", True, (100,100,100), (200,200,200))
 bla=0
 while 1:
     screen.blit(hero,(300,150))
@@ -59,71 +61,116 @@ while 1:
             if 495<= mouse[0] <=495+startrect[2]  and 300<= mouse[1] <=300+startrect[3]:
                 bla=1
     if bla==1: break
-bla=0
-count=0
-show(nature,grass,count)
-screen.blit(hero,(250,0))
+
 while 1:
-    pygame.display.flip()
-    if((int(time.time())-start_time)%1==0 and c!=int(time.time())):
-        enemypos.append([1100,random.randint(0,520)])
-        a=int(time.time())
-        timeline.append(a)
-        c=int(time.time())
-    show(nature, grass,count)
-    screen.blit(hero, pos)
-    for i in range(len(enemypos)):
-        if((int(time.time())-timeline[i])%1==0 and d!=int(time.time())):
-            enemypos[i][0]=enemypos[i][0]-40
-        if(i==len(enemypos)-1):
-            d = int(time.time())
-        screen.blit(player, enemypos[i])
-        if (enemypos[i][0] <= naturerect[2]):
-            bla = 1
-            break
-    if(bla==1): break
-    for event in pygame.event.get():
-        if event.type==pygame.QUIT:
-            pygame.quit()
-            exit(1)
-        if event.type == pygame.KEYDOWN:
-            if event.key==K_DOWN or event.key==K_s:
-                if(pos[1]+50<=620):
-                    pos[1]=pos[1]+50
-                show(nature,grass,count)
-                screen.blit(hero, pos)
-            if event.key==K_UP or event.key==K_w:
-                if(pos[1]-50>=0):
-                    pos[1]=pos[1]-50
-                show(nature,grass,count)
-                screen.blit(hero, pos)
-            if event.key==K_a or event.key==K_LEFT:
-                if(pos[0]-50>=250):
-                    pos[0]=pos[0]-50
-                show(nature,grass,count)
-                screen.blit(hero, pos)
-            if event.key==K_d or event.key==K_RIGHT:
-                if(pos[0]+50<=1240):
-                    pos[0]=pos[0]+50
-                show(nature,grass,count)
-                screen.blit(hero, pos)
-            if event.key==K_SPACE:
-                for i in range(len(enemypos)):
-                    if((badrect[3]//2)+pos[1]>=enemypos[i][1] and (badrect[3]//2)+pos[1]<=enemypos[i][1]+zombrect[3]):
-                        screen.blit(bullet,(pos[0]+badrect[2]+40,badrect[3]//2+pos[1]))
-                        screen.blit(player,enemypos[i])
-                        enemypos.pop(i)
-                        timeline.pop(i)
-                        count+=1
-                        break
-while 1:
-    size=(1250,620)
-    pygame.draw.rect(screen, green, pygame.Rect(0, 0, 1250, 620))
-    over = font.render("Gameover, zombie reached the plants", True, (100, 100, 100), (200, 200, 200))
-    screen.blit(over,(495,300))
-    pygame.display.flip()
-    pygame.display.update()
-    for event in pygame.event.get():
-        if event.type==pygame.QUIT:
-            pygame.quit()
-            exit(1)
+    go=0
+    bla=0
+    count = 0
+    starttimer = int(time.time())
+    start_time = int(time.time())
+    show(nature, grass, count)
+    screen.blit(hero, (250, 0))
+    while (int(time.time())-start_time)<=60:
+        pygame.display.flip()
+        if((int(time.time())-start_time)%1==0 and c!=int(time.time())):
+            enemypos.append([1100,random.randint(0,520)])
+            a=int(time.time())
+            timeline.append(a)
+            c=int(time.time())
+        show(nature, grass,count)
+        screen.blit(hero, pos)
+        for i in range(len(enemypos)):
+            if((int(time.time())-timeline[i])%1==0 and d!=int(time.time())):
+                enemypos[i][0]=enemypos[i][0]-40
+            if(i==len(enemypos)-1):
+                d = int(time.time())
+            screen.blit(player, enemypos[i])
+            if (enemypos[i][0] <= naturerect[2]):
+                bla = 1
+                break
+        if(bla==1): break
+        for event in pygame.event.get():
+            if event.type==pygame.QUIT:
+                pygame.quit()
+                exit(1)
+            if event.type == pygame.KEYDOWN:
+                if event.key==K_DOWN or event.key==K_s:
+                    if(pos[1]+50<=620):
+                        pos[1]=pos[1]+50
+                    show(nature,grass,count)
+                    screen.blit(hero, pos)
+                if event.key==K_UP or event.key==K_w:
+                    if(pos[1]-50>=0):
+                        pos[1]=pos[1]-50
+                    show(nature,grass,count)
+                    screen.blit(hero, pos)
+                if event.key==K_a or event.key==K_LEFT:
+                    if(pos[0]-50>=250):
+                        pos[0]=pos[0]-50
+                    show(nature,grass,count)
+                    screen.blit(hero, pos)
+                if event.key==K_d or event.key==K_RIGHT:
+                    if(pos[0]+50<=1240):
+                        pos[0]=pos[0]+50
+                    show(nature,grass,count)
+                    screen.blit(hero, pos)
+                if event.key==K_SPACE:
+                    for i in range(len(enemypos)):
+                        if((badrect[3]//2)+pos[1]>=enemypos[i][1] and (badrect[3]//2)+pos[1]<=enemypos[i][1]+zombrect[3]):
+                            screen.blit(bullet,(pos[0]+badrect[2]+40,badrect[3]//2+pos[1]))
+                            screen.blit(player,enemypos[i])
+                            enemypos.pop(i)
+                            timeline.pop(i)
+                            count+=1
+                            break
+    while 1:
+        if(bla==1):
+            pygame.draw.rect(screen, (128,0,0), pygame.Rect(0, 0, 1250, 620))
+            over = font.render("Oops... you failed to save the trees!!!", True, (100, 100, 100), (200, 200, 200))
+            screen.blit(over,(425,300))
+            score = font.render("Your score:"+str(count),True,(100, 100, 100), (200, 200, 200))
+            screen.blit(score,(pygame.Rect(over.get_rect())[3]+500,350))
+            screen.blit(nature, (300, 135))
+            screen.blit(player, (700, 150))
+            restart=font.render("Click to restart",True,green,blue)
+            screen.blit(restart,(Rect(score.get_rect())[3]+490,400))
+            againrect=pygame.Rect(restart.get_rect())
+            pygame.display.flip()
+            pygame.display.update()
+            for event in pygame.event.get():
+                if event.type==pygame.QUIT:
+                    pygame.quit()
+                    exit(0)
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    mouse = pygame.mouse.get_pos()
+                    if 490<= mouse[0] <=490+againrect[2]  and 400<= mouse[1] <=400+againrect[3]:
+                        go=1
+            if go==1:
+                enemypos.clear()
+                timeline.clear()
+                break
+        else:
+            pygame.draw.rect(screen, (0,100,0), pygame.Rect(0, 0, 1250, 620))
+            over = font.render("You saved the trees from zombies..success!!!", True, (100, 100, 100), (200, 200, 200))
+            screen.blit(over,(375,300))
+            score = font.render("Your score:"+str(count),True,(100, 100, 100), (200, 200, 200))
+            screen.blit(score,(pygame.Rect(over.get_rect())[3]+500,350))
+            screen.blit(hero, (300, 150))
+            screen.blit(player, (700, 150))
+            restart=font.render("Click to restart",True,green,blue)
+            screen.blit(restart,(Rect(score.get_rect())[3]+490,400))
+            againrect=pygame.Rect(restart.get_rect())
+            pygame.display.flip()
+            pygame.display.update()
+            for event in pygame.event.get():
+                if event.type==pygame.QUIT:
+                    pygame.quit()
+                    exit(1)
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    mouse = pygame.mouse.get_pos()
+                    if 490<= mouse[0] <=490+againrect[2]  and 400<= mouse[1] <=400+againrect[3]:
+                        go=1
+            if go==1:
+                enemypos.clear()
+                timeline.clear()
+                break
