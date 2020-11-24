@@ -22,3 +22,5 @@ and a shooter who saves the trees behind him shoots the zombies
 - After extracting the .zip file
   - Go to **dist->game.exe**
   - Run the exectuable file and have fun playing the mini game :)
+ 
+ # Thanks for viewing
