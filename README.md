@@ -1,4 +1,4 @@
-# Game
+# Shoot the zombies
 
 ### Introduction
 My very first game developed using python with the help of pygame library
